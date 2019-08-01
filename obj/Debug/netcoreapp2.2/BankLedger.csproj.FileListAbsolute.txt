@@ -1,0 +1,11 @@
+/Users/mimi/cSharpApps/BankLedger/bin/Debug/netcoreapp2.2/BankLedger.deps.json
+/Users/mimi/cSharpApps/BankLedger/bin/Debug/netcoreapp2.2/BankLedger.runtimeconfig.json
+/Users/mimi/cSharpApps/BankLedger/bin/Debug/netcoreapp2.2/BankLedger.runtimeconfig.dev.json
+/Users/mimi/cSharpApps/BankLedger/bin/Debug/netcoreapp2.2/BankLedger.dll
+/Users/mimi/cSharpApps/BankLedger/bin/Debug/netcoreapp2.2/BankLedger.pdb
+/Users/mimi/cSharpApps/BankLedger/obj/Debug/netcoreapp2.2/BankLedger.csprojAssemblyReference.cache
+/Users/mimi/cSharpApps/BankLedger/obj/Debug/netcoreapp2.2/BankLedger.csproj.CoreCompileInputs.cache
+/Users/mimi/cSharpApps/BankLedger/obj/Debug/netcoreapp2.2/BankLedger.AssemblyInfoInputs.cache
+/Users/mimi/cSharpApps/BankLedger/obj/Debug/netcoreapp2.2/BankLedger.AssemblyInfo.cs
+/Users/mimi/cSharpApps/BankLedger/obj/Debug/netcoreapp2.2/BankLedger.dll
+/Users/mimi/cSharpApps/BankLedger/obj/Debug/netcoreapp2.2/BankLedger.pdb
