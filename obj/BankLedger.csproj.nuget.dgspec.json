@@ -39,19 +39,19 @@
       "frameworks": {
         "netcoreapp2.2": {
           "dependencies": {
-            "EnyimMemcachedCore": {
-              "target": "Package",
-              "version": "[2.3.0, )"
-            },
             "Microsoft.NETCore.App": {
               "suppressParent": "All",
               "target": "Package",
               "version": "[2.2.0, )",
               "autoReferenced": true
             },
-            "ServiceStack.Redis": {
+            "Redis-64": {
               "target": "Package",
-              "version": "[5.5.0, )"
+              "version": "[3.0.503, )"
+            },
+            "StackExchange.Redis": {
+              "target": "Package",
+              "version": "[2.0.601, )"
             }
           },
           "imports": [

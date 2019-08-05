@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EnyimMemcachedCore" Version="2.3.0" />
-    <PackageReference Include="ServiceStack.Redis" Version="5.5.0" />
+    <PackageReference Include="Redis-64" Version="3.0.503" />
+    <PackageReference Include="StackExchange.Redis" Version="2.0.601" />
   </ItemGroup>
 
 </Project>
