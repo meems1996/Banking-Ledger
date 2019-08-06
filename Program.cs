@@ -4,36 +4,41 @@ using System.Collections.Generic;
 namespace BankLedger
 {    
     class  StartApplication{
-        static String chooseUsername, choosePassword;
-        private static Dictionary<string, string> user = new Dictionary<string, string>();
+        static string ChooseUsername, ChoosePassword, RetypePassword, UserLoggedIn = null; // logged out if UserLoggedIn == null
+        static bool LoggedOut = true; 
+        static UserProfile NewUserObject;
+        static double UserBalance;
+        private static Dictionary<string, string> _user = new Dictionary<string, string>();
+        private static Dictionary<string, int> _userBalance = new Dictionary<string, int>();
+        private static Dictionary<string, int> _transactionHistory = new Dictionary<string, int>();
 
         public static void start() {
-            DisplayOptions();
-            AskForOption();
+            if (LoggedOut == true) {
+                DisplayOptions();
+                AskForOption();
+            }
         }
         public static void DisplayOptions() {
-            Title();
+            Welcome.Title();
             Console.ForegroundColor = ConsoleColor.Magenta;
-            center("1. Sign up       2. Log In");
+            Welcome.center("1. Sign up       2. Log In");
             Console.ResetColor();
             Console.Write("$ ");
         }
-
         public static void AskForOption() {
             String userInput = Console.ReadLine();
-
             if (userInput == "1") {
                 SignUp();
-            }
-
-            if (userInput == "2") {
+            } else if (userInput == "2") {
+                foreach (var pair in _user) {
+                 Console.WriteLine(pair);
+                }
                  LogIn();
-                // prints the data (user, password)
-                 foreach (var pair in user) {
-                Console.WriteLine("\nUsername:" + pair.Key + " Password: " + pair.Value);
+            } else {
+                Console.Clear();
+                Console.WriteLine("Unsupported action");
+                start();
             }
-            }
-
         }
 
         public static void SignUp() {
@@ -41,30 +46,35 @@ namespace BankLedger
             Console.WriteLine("\nSign Up By Choosing a Username and a Password.");
             Console.Write("\nChoose Username: ");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            chooseUsername = Console.ReadLine();
+            ChooseUsername = Console.ReadLine();
             Console.ResetColor();
 
             Console.Write("Choose Password: ");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            choosePassword = Console.ReadLine();
+            ChoosePassword = Console.ReadLine();
             Console.ResetColor();
             Console.Write("Retype Password: ");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            String retypePassword = Console.ReadLine();
+            RetypePassword = Console.ReadLine();
             Console.ResetColor();
 
-            // If the passwords match and the username fits, hash the password and save them into a map
-            if (choosePassword == retypePassword) {
-                // return the user name and the password 
-                // createUserProfile[0] = chooseUsername;
-                // createUserProfile[1] = choosePassword; 
+            // // If the passwords match and the username fits, hash the password and save them into a map
+            if (ChoosePassword == RetypePassword) {
                 Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("\nSign up successful! You can log in now!  " + @"\(^-^)/");
-                Console.ResetColor();
-                user.Add(chooseUsername, choosePassword);
 
-            } else if (choosePassword != retypePassword) {
+                foreach(var pair in _user) {
+                    if (ChooseUsername == pair.Key) {
+                        Console.WriteLine("Username taken");
+                        SignUp();
+                    } 
+                }
+                _user.Add(ChooseUsername, ChoosePassword);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\nSign up successful! You can log in now, " + ChooseUsername + "!  " + @"\(^-^)/");
+                Console.ResetColor();
+                start();
+
+            } else if (ChoosePassword != RetypePassword) {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\nPasswords don't match!    " + "(ಥ﹏ಥ)");
@@ -73,20 +83,6 @@ namespace BankLedger
             }
         }
         public static void LogIn() {
-            Console.Clear();
-            // think of more efficient way of doing this
-            foreach (var pair in user) {
-                center("==========================");
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                center("Welcome, " + pair.Key);
-                Console.ResetColor();
-                center("==========================");
-                center("\n");
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                center("1. Make Transaction\t" + "2. Make Widthdrawal\t" +"3. Check Transaction History");
-                Console.ResetColor();
-            }
-
             Console.WriteLine("\nLog in to your account by typing in your username and password.");
             Console.WriteLine("\nUsername:");
             Console.ForegroundColor = ConsoleColor.Red;
@@ -96,28 +92,59 @@ namespace BankLedger
             Console.ForegroundColor = ConsoleColor.Red;
             String password = Console.ReadLine();
             Console.ResetColor();
-            Console.WriteLine("In Login");
-        }
 
-// Show the title Welcome to Bank Ledger
-        public static void Title() {
-            center("\n\n");
-            center("____              _      _              _                 ");
-            center(@"|  _ \            | |    | |            | |                ");
-            center("| |_) | __ _ _ __ | | __ | |     ___  __| | __ _  ___ _ __ ");
-            center(@"|  _ < / _` | '_ \| |/ / | |    / _ \/ _` |/ _` |/ _ \ '__|");
-            center("| |_) | (_| | | | |   <  | |___|  __/ (_| | (_| |  __/ |   ");
-            center(@"|____/ \__,_|_| |_|_|\_\ |______\___|\__,_|\__, |\___|_|   ");
-            center("                                           __/ |          ");
-            center("                                          |___/           ");
-            center("\n");
-        }
+            if (_user.Count == 0) {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Wrong credentials or user does not exist!" + "(ಥ﹏ಥ)");
+                Console.ResetColor();
 
-        public static void center(String message) {
-            int screenWidth = Console.WindowWidth;
-            int stringWidth = message.Length;
-            int spaces = (screenWidth / 2) + (stringWidth / 2); 
-            Console.WriteLine(message.PadLeft(spaces));
+            }
+            // iterate over the hashmap of users 
+            foreach (var pair in _user) {
+                if (username == pair.Key) {
+                    LoggedOut = false;
+                    NewUserObject = new UserProfile(0); // may need only balance
+                   UserBalance = NewUserObject.Balance;
+                    var transactionNum = _transactionHistory.Count + 1;
+                    UserLoggedIn = pair.Key;
+
+                    if (UserLoggedIn == "mimi") {
+                       UserBalance = UserProfile.recordDeposit(UserBalance, 50);
+                    }
+                    Console.Clear();
+                    Welcome.welcomeUser(UserLoggedIn);
+                    Console.Write("\n$ ");
+                    userProfile();
+                }
+            }
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\nWrong credentials  " + "(ಥ﹏ಥ)");
+            Console.ResetColor();
+        }
+        public static void userProfile() {
+            var userInput = Console.ReadLine();
+                if (userInput == "logout") {
+                    Console.Clear();
+                    LoggedOut = true;
+                    start();
+                }
+                if (userInput == "1") {
+                    Console.WriteLine("\nUser Balance: " + UserBalance+ "\n");
+                    Console.Write("\n$ ");
+                    userProfile();
+                }
+                if (userInput == "2") {
+                    Console.WriteLine("\nDeposit!");
+                    Console.Write("\n$ ");
+                    userProfile();
+                }
+                if (userInput == "3") {
+                    Console.WriteLine("\nWithdrawal!");
+                    Console.Write("\n$ ");
+                    userProfile();
+                }     
         }
     }
 }
