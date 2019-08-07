@@ -34,5 +34,13 @@ namespace BankLedger {
             center("1. Balance\t" + "2. Deposit\t" + "3. Withdrawal\t" +"4. Transaction History");
             Console.ResetColor();
         }
+        // Display options for the user for start of application
+        public static void DisplayOptions() {
+            Welcome.Title();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Welcome.center("1. Sign up       2. Log In");
+            Console.ResetColor();
+            Messages.UserInputIndicator();
+        }
     }
 }
