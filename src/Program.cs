@@ -282,6 +282,9 @@ namespace BankLedger
             if (UserBalance > newWithdrawal)
             {
                 UserBalance = UserBalance - newWithdrawal;
+                Console.ForegroundColor = ConsoleColor.Green;
+                Messages.SuccessMessage("Withdrawal Successful");
+                Console.ResetColor();
             }
             else
             {
