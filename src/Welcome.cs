@@ -1,10 +1,13 @@
-using System; 
+using System;
 
-namespace BankLedger {
+namespace BankLedger
+{
 
-    public class Welcome {
+    public class Welcome
+    {
         // Show the title Welcome to Bank Ledger
-        public static void Title() {
+        public static void Title()
+        {
             // center("\n\n");
             center("____              _      _              _                 ");
             center(@"|  _ \            | |    | |            | |                ");
@@ -17,25 +20,28 @@ namespace BankLedger {
             center("\n");
         }
 
-        public static void center(String message) {
+        public static void center(String message)
+        {
             int screenWidth = Console.WindowWidth;
             int stringWidth = message.Length;
-            int spaces = (screenWidth / 2) + (stringWidth / 2); 
+            int spaces = (screenWidth / 2) + (stringWidth / 2);
             Console.WriteLine(message.PadLeft(spaces));
         }
 
-        public static void welcomeUser(string userName) {
+        public static void welcomeUser(string userName)
+        {
             center("==========================");
             Console.ForegroundColor = ConsoleColor.Yellow;
             center("Welcome, " + userName);
             Console.ResetColor();
             center("==========================");
             Console.ForegroundColor = ConsoleColor.Cyan;
-            center("1. Balance\t" + "2. Deposit\t" + "3. Withdrawal\t" +"4. Transaction History");
+            center("1. Balance\t" + "2. Deposit\t" + "3. Withdrawal\t" + "4. Transaction History");
             Console.ResetColor();
         }
         // Display options for the user for start of application
-        public static void DisplayOptions() {
+        public static void DisplayOptions()
+        {
             Welcome.Title();
             Console.ForegroundColor = ConsoleColor.Magenta;
             Welcome.center("1. Sign up       2. Log In");
