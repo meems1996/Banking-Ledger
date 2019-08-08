@@ -67,37 +67,45 @@ namespace BankLedger
             RetypePassword = Console.ReadLine();
             Console.ResetColor();
 
-            // check if the two passwords (ChoosePassword and RetypePassword) match
-            if (ChoosePassword == RetypePassword)
-            {
-                // iterate over _user map and if there is a user with the same username, print error
-                // username should be unique
-                foreach (var pair in _user)
+            if (ChooseUsername.Length != 0 && ChoosePassword.Length != 0) {
+
+                 // check if the two passwords (ChoosePassword and RetypePassword) match
+                if (ChoosePassword == RetypePassword)
                 {
-                    if (ChooseUsername == pair.Key)
+                    // iterate over _user map and if there is a user with the same username, print error
+                    // username should be unique
+                    foreach (var pair in _user)
                     {
-                        Messages.ErrorMessage("\nUsername taken");
-                        SignUp();
+                        if (ChooseUsername == pair.Key)
+                        {
+                            Messages.ErrorMessage("\nUsername taken");
+                            SignUp();
+                        }
                     }
+
+                    Console.WriteLine(ChooseUsername.Length);
+                    Console.Clear();
+                    // Create the 3 major tables needed for this assignment, each is defined by a Unique ID which is the username
+                    _user.Add(ChooseUsername, ChoosePassword);
+                    _userBalance.Add(ChooseUsername, 0);
+                    _innerTransactionHistory = new Dictionary<int, double>();
+                    _transactionHistory.Add(ChooseUsername, _innerTransactionHistory);
+                    NewUserObject = new UserProfile(0); // may need only balance
+                    UserBalance = NewUserObject.Balance;
+
+                    // Success message when user signs up successfully, and then go back to the start
+                    Messages.SuccessMessage("\nSign up successful! You can log in now, " + ChooseUsername + "!  " + @"\(^-^)/");
+                    start();
+
+                    // else if the passwords don't match, let the user know and bring the sign up form again
                 }
-                Console.Clear();
-                // Create the 3 major tables needed for this assignment, each is defined by a Unique ID which is the username
-                _user.Add(ChooseUsername, ChoosePassword);
-                _userBalance.Add(ChooseUsername, 0);
-                _innerTransactionHistory = new Dictionary<int, double>();
-                _transactionHistory.Add(ChooseUsername, _innerTransactionHistory);
-                NewUserObject = new UserProfile(0); // may need only balance
-                UserBalance = NewUserObject.Balance;
-
-                // Success message when user signs up successfully, and then go back to the start
-                Messages.SuccessMessage("\nSign up successful! You can log in now, " + ChooseUsername + "!  " + @"\(^-^)/");
-                start();
-
-                // else if the passwords don't match, let the user know and bring the sign up form again
             }
             else if (ChoosePassword != RetypePassword)
             {
                 Messages.ErrorMessage("\nPasswords don't match!    " + "(ಥ﹏ಥ)");
+                SignUp();
+            } else if (ChooseUsername.Length == 0 || ChoosePassword.Length == 0) {
+                Messages.ErrorMessage("\nCan't enter nothing");
                 SignUp();
             }
         }
@@ -167,9 +175,9 @@ namespace BankLedger
             {
                 Console.Write("\nDeposit Money\nAmount: $");
                 var depositInput = Console.ReadLine();
-                if (!(Regex.IsMatch(depositInput, @"^\d+$")))
+                if (!(Regex.IsMatch(depositInput, @"^[1-9]\d*(\.\d+)?$")))
                 {
-                    Messages.ErrorMessage("Must enter a number");
+                    Messages.ErrorMessage("Not a valid option");
                     Messages.UserInputIndicator();
                     userProfile();
                 }
@@ -184,9 +192,9 @@ namespace BankLedger
             {
                 Console.Write("\nWithdraw Money\nAmount: $");
                 var withdrawalInput = Console.ReadLine();
-                if (!(Regex.IsMatch(withdrawalInput, @"^\d+$")))
+                if (!(Regex.IsMatch(withdrawalInput, @"^[1-9]\d*(\.\d+)?$")))
                 {
-                    Messages.ErrorMessage("Must enter a number");
+                    Messages.ErrorMessage("Not a valid option");
                     Messages.UserInputIndicator();
                     userProfile();
                 }
@@ -279,7 +287,7 @@ namespace BankLedger
         public static double recordWithdrawal(double newWithdrawal)
         {
             // you can only withdraw if balance is more than the amount you wish to withdraw (no matter how much we would like the alternative XD )
-            if (UserBalance > newWithdrawal)
+            if (UserBalance >= newWithdrawal)
             {
                 UserBalance = UserBalance - newWithdrawal;
                 Console.ForegroundColor = ConsoleColor.Green;
